@@ -1,9 +1,6 @@
 package game;
 
-import players.ManualPlayer;
-import players.RandomPlayer;
-import players.SimpleNPCPlayer;
-import players.TemplatePlayer;
+import players.*;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -57,8 +54,8 @@ public class GameEngine {
 
         // create players here
 
-        //listPlayersRemainingGame.add(new ManualPlayer("Manual Player"));
-        addSimpleNPCs(5);
+        listPlayersRemainingGame.add(new DiasPlayer("DiasPlayer"));
+        addSimpleNPCs(2);
         addRandomNPCs(0);
         addTempPlayers(0);
         Collections.shuffle(listPlayersRemainingGame);

@@ -1,5 +1,8 @@
 package players;
 
+import game.HandRanks;
+import game.GameState;
+import game.PlayerActions;
 import game.Player;
 
 public class DiasPlayer extends Player {
@@ -9,35 +12,64 @@ public class DiasPlayer extends Player {
 
     @Override
     protected void takePlayerTurn() {
-        if(getGameState().isActiveBet()) {
-            if(getGameState().getNumRoundStage() == 0) {
-                // i know there is a bet pre flop
-            }
+        if (shouldFold()) {
+            fold();
+        } else if (shouldCheck()) {
+            check();
+        } else if (shouldCall()) {
+            call();
+        } else if (shouldRaise()) {
+            raise(getGameState().getTableMinBet()); // Example: always raises the minimum bet
+        } else if (shouldAllIn()) {
+            allIn();
         }
     }
 
     @Override
     protected boolean shouldFold() {
-        return true;
+        if (isHandBelowThreshold()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     protected boolean shouldCheck() {
-        return false;
+        return evaluatePlayerHand().getValue() < HandRanks.HIGH_CARD.getValue();
     }
-
     @Override
     protected boolean shouldCall() {
-        return false;
+        return getGameState().isActiveBet();
     }
 
     @Override
     protected boolean shouldRaise() {
-        return false;
+        return evaluatePlayerHand().getValue() >= HandRanks.TWO_PAIR.getValue()
+                || evaluatePlayerHand().getValue() >= HandRanks.THREE_OF_A_KIND.getValue();
     }
 
     @Override
     protected boolean shouldAllIn() {
-        return false;
+        return evaluatePlayerHand().getValue() >= HandRanks.FULL_HOUSE.getValue()
+                || evaluatePlayerHand().getValue() >= HandRanks.FOUR_OF_A_KIND.getValue()
+                || evaluatePlayerHand().getValue() >= HandRanks.FLUSH.getValue()
+                || evaluatePlayerHand().getValue() >= HandRanks.ROYAL_FLUSH.getValue();
     }
+
+
+    private boolean isHandBelowThreshold() {
+        // Example: Fold if the highest card is below 8
+        return getHighestCardValue() < 8;
+    }
+        private int getHighestCardValue() {
+            int highestValue = 0;
+            for (game.Card card : getHandCards()) {
+                int cardValue = card.getValue();
+                if (cardValue > highestValue) {
+                    highestValue = cardValue;
+                }
+            }
+            return highestValue;
+        }
 }
