@@ -32,12 +32,12 @@ public class DiasPlayer extends Player {
 
     @Override
     protected boolean shouldFold() {
-        return isHandBelowThreshold();
+        return false;
     }
 
     @Override
     protected boolean shouldCheck() {
-        return evaluatePlayerHand().getValue() < HandRanks.HIGH_CARD.getValue();
+        return !getGameState().isActiveBet() && isHandBelowThreshold();
     }
     @Override
     protected boolean shouldCall() {
