@@ -1,8 +1,6 @@
 package players;
 
 import game.HandRanks;
-import game.GameState;
-import game.PlayerActions;
 import game.Player;
 
 public class DiasPlayer extends Player {
@@ -12,6 +10,13 @@ public class DiasPlayer extends Player {
 
     @Override
     protected void takePlayerTurn() {
+
+        if(getGameState().isActiveBet()) {
+            if (getGameState().getNumRoundStage() == 0) {
+                // I know there is a bet pre-flop
+            }
+        }
+
         if (shouldFold()) {
             fold();
         } else if (shouldCheck()) {
@@ -27,11 +32,7 @@ public class DiasPlayer extends Player {
 
     @Override
     protected boolean shouldFold() {
-        if (isHandBelowThreshold()) {
-            return true;
-        } else {
-            return false;
-        }
+        return isHandBelowThreshold();
     }
 
     @Override
@@ -59,8 +60,8 @@ public class DiasPlayer extends Player {
 
 
     private boolean isHandBelowThreshold() {
-        // Example: Fold if the highest card is below 8
-        return getHighestCardValue() < 8;
+        // Example: Fold if the highest card is below 5
+        return getHighestCardValue() < 5;
     }
         private int getHighestCardValue() {
             int highestValue = 0;
