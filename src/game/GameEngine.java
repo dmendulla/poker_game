@@ -43,7 +43,7 @@ public class GameEngine {
     public GameEngine() {
         //updated 20240313 11:56
         //0 (fullSpeed) to Integer.MAX_VALUE (~24 days)
-        gameSpeed = 350;
+        gameSpeed = 100;
 
         deck = new Deck();
         deck.shuffle();
@@ -55,8 +55,8 @@ public class GameEngine {
         // create players here
 
         listPlayersRemainingGame.add(new DiasPlayer("DiasPlayer"));
-        addSimpleNPCs(2);
-        addRandomNPCs(0);
+        addSimpleNPCs(1);
+        addRandomNPCs(1);
         addTempPlayers(0);
         Collections.shuffle(listPlayersRemainingGame);
 
