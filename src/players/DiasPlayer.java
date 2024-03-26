@@ -8,7 +8,7 @@ public class DiasPlayer extends Player {
     public DiasPlayer(String name) {
         super(name);
     }
-
+// basic NPC code so it could operate as others
     @Override
     protected void takePlayerTurn() {
         //printExampleStateInformation();
@@ -29,12 +29,12 @@ public class DiasPlayer extends Player {
             allIn();
         }
     }
-
+// I made my NPC to never fold, had to make him aggressive individual
     @Override
     protected boolean shouldFold() {
         return false;
     }
-
+// just wrote a code to make sure my NPC wouldn't any illegal moves
     @Override
     protected boolean shouldCheck() {
         boolean noBet = !getGameState().isActiveBet();
@@ -45,6 +45,7 @@ public class DiasPlayer extends Player {
         boolean lessThanFlushHand = evaluatePlayerHand().getValue() != HandRanks.FLUSH.getValue();
         return noBet && lessThanPair && lessThanTwoPairHand && lessThanThreeKindHand && lessThanStraightHand && lessThanFlushHand;
     }
+    // my NPC will use call only if he doesn't have good deck of cards in his hands
     @Override
     protected boolean shouldCall() {
         boolean isBet = getGameState().isActiveBet();
@@ -52,7 +53,7 @@ public class DiasPlayer extends Player {
         boolean lessThanThreeKindHand = evaluatePlayerHand().getValue() != HandRanks.THREE_OF_A_KIND.getValue();
         return isBet && lessThanTwoPairHand && lessThanThreeKindHand;
     }
-
+// wanted to make my NPC to raise if he had pair, two or three
     @Override
     protected boolean shouldRaise() {
         boolean hasPairHand = evaluatePlayerHand().getValue() <= HandRanks.PAIR.getValue();
@@ -60,7 +61,7 @@ public class DiasPlayer extends Player {
         boolean hasThreeKindHand = evaluatePlayerHand().getValue() <= HandRanks.THREE_OF_A_KIND.getValue();
         return hasPairHand || hasTwoPairHand || hasThreeKindHand;
     }
-
+// If my NPC have a better deck of cards such of those below, he will be complete savage
     @Override
     protected boolean shouldAllIn() {
         boolean fullHouse = evaluatePlayerHand().getValue() <= HandRanks.FULL_HOUSE.getValue();
